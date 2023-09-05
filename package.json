@@ -6,7 +6,7 @@
   "author": "Igor <spirit-drive@yandex.ru>",
   "scripts": {
     "start": "webpack serve --mode development",
-    "start:local": "cross-env LOCAL=true webpack serve --mode development",
+    "dev": "cross-env LOCAL=true webpack serve --mode development",
     "build": "webpack --mode production",
     "test": "jest src",
     "lint": "eslint src --fix"
