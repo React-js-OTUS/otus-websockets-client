@@ -13,7 +13,9 @@ export function* setToken(): Generator {
   tokenChannel.setToken(token);
   if (token) {
     storage.set(TOKEN_KEY, token);
-    const profile = (yield projectFetch('/profile')) as Profile;
+    const profile = (yield projectFetch('/profile', {
+      headers: { 'Content-Type': 'application/json', authorization: token },
+    })) as Profile;
     yield put(profileActions.set(profile));
   }
 }

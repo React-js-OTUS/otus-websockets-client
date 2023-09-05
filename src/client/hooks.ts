@@ -95,7 +95,12 @@ export const useMutation = <TData = unknown, TVars = unknown>(
   const query = useCallback<Mutate<TData, TVars>>(
     ({ variables } = {} as { variables: TVars }) => {
       dispatch({ type: 'loading' });
-      return projectFetch<TData>(input, variables ? { body: JSON.stringify(variables), method: 'post' } : undefined)
+      return projectFetch<TData>(
+        input,
+        variables
+          ? { body: JSON.stringify(variables), method: 'post', headers: { 'Content-Type': 'application/json' } }
+          : undefined
+      )
         .then((res) => {
           dispatch({ type: 'data', payload: res });
           return Promise.resolve({ data: res, error: null });
