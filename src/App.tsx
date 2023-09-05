@@ -1,11 +1,29 @@
 import React from 'react';
-import { SocketProvider } from 'src/socket/SocketProvider';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import './localization';
+import { LocalizationInitiator } from './localization/LocalizationInitiator';
+import { Navigation } from './navigation/Navigation';
+import { store } from './store';
+import { Layout } from './layout';
+import { ThemeProvider } from './theming';
+import { Initializer } from './store/Initializer';
+import { Head } from './Head';
 
 function App() {
   return (
-    <SocketProvider>
-      <div>App</div>
-    </SocketProvider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <Head />
+        <Initializer />
+        <LocalizationInitiator />
+        <ThemeProvider>
+          <Layout>
+            <Navigation />
+          </Layout>
+        </ThemeProvider>
+      </Provider>
+    </BrowserRouter>
   );
 }
 
