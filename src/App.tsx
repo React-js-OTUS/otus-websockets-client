@@ -1,10 +1,11 @@
 import React from 'react';
+import { SocketProvider } from 'src/socket/SocketProvider';
 
 function App() {
   return (
-    <div>
-      App
-    </div>
+    <SocketProvider>
+      <div>App</div>
+    </SocketProvider>
   );
 }
 
