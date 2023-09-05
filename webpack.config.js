@@ -1,7 +1,7 @@
 const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { ContextReplacementPlugin } = require('webpack');
+const { ContextReplacementPlugin, DefinePlugin } = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -71,6 +71,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new DefinePlugin({
+      'process.env.LOCAL': JSON.stringify(process.env.LOCAL),
+    }),
     new HtmlWebpackPlugin({
       template: "./index.html",
       favicon: "./favicon.svg"

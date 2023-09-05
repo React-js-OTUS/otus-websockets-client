@@ -20,7 +20,7 @@ export type ProfileCompletedFormProps = {
 export const ProfileCompletedForm = memo<ProfileCompletedFormProps>(({ className }) => {
   const profile = useSelector(profileSelectors.get);
   const { t } = useTranslation();
-  const [update, { loading }] = useMutation<UpdateProfileResponse, UpdateProfileVars>('/profile/update');
+  const [update, { loading }] = useMutation<UpdateProfileResponse, UpdateProfileVars>('/profile');
 
   const { onSubmit, validate, initialValues } = useMemo<
     Pick<FormikConfig<ProfileFormValues>, 'onSubmit' | 'validate' | 'initialValues'>
