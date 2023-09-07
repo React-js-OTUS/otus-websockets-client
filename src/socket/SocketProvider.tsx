@@ -55,6 +55,8 @@ export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
         .removeAllListeners('connect')
         .removeAllListeners('disconnect')
         .removeAllListeners('connect_error')
+        .removeAllListeners('messages')
+        .removeAllListeners('users')
         .disconnect();
       setData({ socket: null, error: null });
     };
