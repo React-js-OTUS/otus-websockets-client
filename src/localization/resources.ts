@@ -19,7 +19,7 @@ export const resources = {
         ERR_INVALID_PASSWORD: 'The password must contain at least 8 characters',
         ERR_INVALID_EMAIL: 'Invalid email',
         ERR_TOKEN_REQUIRED_ERROR:
-          'Server token error. We automatically register all errors and will fix everything soon',
+          'The token is required. Check the request to the server, maybe there is no authorization token in it',
         ERR_JWT_ERROR: 'You are not logged in, log in to your account and try again',
         ERR_DATA_BASE_ERROR: 'Database server error. We automatically register all errors and will fix everything soon',
         INTERNAL_SERVER_ERROR: 'Server error. We automatically register all errors and will fix everything soon',
@@ -192,8 +192,7 @@ export const resources = {
         ERR_ACCOUNT_ALREADY_EXIST: 'Аккаунт с таким email уже существует',
         ERR_INVALID_PASSWORD: 'Пароль должен содержать от 8 символов',
         ERR_INVALID_EMAIL: 'Некорректный email',
-        ERR_TOKEN_REQUIRED_ERROR:
-          'Серверная ошибка токена. Мы автоматически регистрируем все ошибки и скоро все исправим',
+        ERR_TOKEN_REQUIRED_ERROR: 'Токен обязателен. Проверьте запрос к серверу, возможно в нем нет токена авторизации',
         ERR_JWT_ERROR: 'Вы не авторизованы, войдите в учетную запись и повторите попытку',
         ERR_DATA_BASE_ERROR:
           'Серверная ошибка базы данный. Мы автоматически регистрируем все ошибки и скоро все исправим',
