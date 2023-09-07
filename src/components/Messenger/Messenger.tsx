@@ -48,7 +48,9 @@ export const Messenger: FC<MessengerProps> = ({ className }) => {
           activeUserId={activeUser?.id}
           onClick={setActiveUser}
         />
-        <MessengerWindow className={s.window} onSend={onSend} userId={profile?.id} messages={messages} />
+        {activeUser && (
+          <MessengerWindow className={s.window} onSend={onSend} userId={profile?.id} messages={messages} />
+        )}
       </div>
     );
   })();
