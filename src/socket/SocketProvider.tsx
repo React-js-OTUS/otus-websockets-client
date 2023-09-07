@@ -11,9 +11,11 @@ export type SocketProviderProps = {
   children: React.ReactNode;
 };
 
+export type SocketError = Error & { data: string };
+
 export type SocketContextType = {
   socket: Socket;
-  error: Error;
+  error: SocketError;
 };
 
 const SocketContext = createContext<SocketContextType>({} as SocketContextType);
@@ -36,7 +38,7 @@ export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
       setData({ socket: null, error: null });
     });
 
-    _socket.on('connect_error', (error) => {
+    _socket.on('connect_error', (error: SocketError) => {
       setData({ socket: _socket, error });
     });
 
