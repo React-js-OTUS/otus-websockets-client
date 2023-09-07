@@ -28,12 +28,12 @@ export const Messenger: FC<MessengerProps> = ({ className }) => {
 
   useEffect(() => {
     if (activeUser) {
-      socket.emit('getMessages', { userIds: [profile?.id, activeUser?.id] });
+      socket?.emit('getMessages', { userIds: [profile?.id, activeUser?.id] });
     }
   }, [activeUser, profile?.id, socket]);
 
   const onSend = (data: MessageData) => {
-    socket.emit('sendMessage', { content: data.content, authorId: profile?.id, recipientIds: [activeUser.id] });
+    socket?.emit('sendMessage', { content: data.content, authorId: profile?.id, recipientIds: [activeUser.id] });
   };
 
   const element = (() => {
