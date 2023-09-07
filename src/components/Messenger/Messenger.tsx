@@ -35,7 +35,7 @@ export const Messenger: FC<MessengerProps> = ({ className }) => {
     socket.emit('sendMessage', { content: data.content, authorId: profile?.id, recipientIds: [activeUser.id] });
   };
 
-  if (users?.length === 1) {
+  if (!users?.length || users?.length === 1) {
     return <div className={cn(s.root, className)}>{t`components.Messenger.empty`}</div>;
   }
 

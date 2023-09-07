@@ -14,7 +14,7 @@ export const UserButton: FC<UserButtonProps> = ({ className, active, value, onCl
   if (!value) return null;
   return (
     <button type="button" className={cn(s.root, active && s.active, className)} onClick={() => onClick(value)}>
-      {value.name}
+      {value.name || value.id}
     </button>
   );
 };
