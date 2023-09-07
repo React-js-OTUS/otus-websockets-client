@@ -38,15 +38,10 @@ export const Messenger: FC<MessengerProps> = ({ className }) => {
 
   const element = (() => {
     if (error) return <Alert className={s.alert} type="error" message={t(`errors.${error.data}`)} />;
-    if (!users?.length || users?.length === 1) return t`components.Messenger.empty`;
+    if (!users?.length) return t`components.Messenger.empty`;
     return (
       <div className={s.wrapper}>
-        <UserButtons
-          className={s.users}
-          value={users?.filter((i) => i.id !== profile?.id)}
-          activeUserId={activeUser?.id}
-          onClick={setActiveUser}
-        />
+        <UserButtons className={s.users} value={users} activeUserId={activeUser?.id} onClick={setActiveUser} />
         {activeUser && (
           <MessengerWindow className={s.window} onSend={onSend} userId={profile?.id} messages={messages} />
         )}
