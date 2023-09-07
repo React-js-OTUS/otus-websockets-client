@@ -1,9 +1,10 @@
 import React, { FC, createContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { URL } from 'src/client/config';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { tokenSelectors } from 'src/store/token';
+import { usersActions } from 'src/store/users';
 
 export type SocketProviderProps = {
   children: React.ReactNode;
@@ -17,12 +18,11 @@ const SocketProviderContext = createContext<SocketProviderContextType>(null);
 
 export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
   const [data, setData] = useState<SocketProviderContextType>();
+  const dispatch = useDispatch();
   const token = useSelector<RootState, RootState['token']>(tokenSelectors.get);
 
   useEffect(() => {
-    const _socket = io(URL, {
-      auth: { token },
-    });
+    const _socket = io(URL, { auth: { token } });
 
     _socket.on('connect', () => {
       setData({ socket: _socket, error: null });
@@ -36,11 +36,15 @@ export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
       setData({ socket: _socket, error });
     });
 
+    _socket.on('users', (users) => {
+      dispatch(usersActions.set(users));
+    });
+
     return () => {
       setData(null);
       _socket.disconnect();
     };
-  }, [token]);
+  }, [dispatch, token]);
 
   return <SocketProviderContext.Provider value={data}>{children}</SocketProviderContext.Provider>;
 };
