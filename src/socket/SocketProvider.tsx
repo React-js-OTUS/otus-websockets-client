@@ -28,33 +28,36 @@ export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
   const token = useSelector<RootState, RootState['token']>(tokenSelectors.get);
 
   useEffect(() => {
-    const _socket = io(URL, { auth: { token } });
+    const socket = io(URL, { auth: { token } });
 
-    _socket.on('connect', () => {
-      setData({ socket: _socket, error: null });
+    socket.on('connect', () => {
+      setData({ socket, error: null });
     });
 
-    _socket.on('disconnect', () => {
+    socket.on('disconnect', () => {
       setData({ socket: null, error: null });
     });
 
-    _socket.on('connect_error', (error: SocketError) => {
-      setData({ socket: _socket, error });
+    socket.on('connect_error', (error: SocketError) => {
+      setData({ socket: null, error });
     });
 
-    _socket.on('users', (users) => {
+    socket.on('users', (users) => {
       dispatch(usersActions.set(users));
     });
 
-    _socket.on('messages', (messages) => {
+    socket.on('messages', (messages) => {
       dispatch(messagesActions.set(messages));
     });
 
     return () => {
-      setData(null);
-      _socket.disconnect();
+      socket.removeAllListeners('connect');
+      socket.removeAllListeners('disconnect');
+      socket.removeAllListeners('connect_error');
+      socket.disconnect();
+      setData({ socket: null, error: null });
     };
-  }, [dispatch, token]);
+  }, [token, dispatch]);
 
   return <SocketContext.Provider value={data}>{children}</SocketContext.Provider>;
 };
