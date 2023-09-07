@@ -22,7 +22,7 @@ export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
   const token = useSelector<RootState, RootState['token']>(tokenSelectors.get);
 
   useEffect(() => {
-    const _socket = io(URL, { auth: { token } });
+    const _socket = io(URL, { auth: { token: '232' } });
 
     _socket.on('connect', () => {
       setData({ socket: _socket, error: null });

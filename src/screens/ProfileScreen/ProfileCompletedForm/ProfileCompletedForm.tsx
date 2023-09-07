@@ -42,7 +42,7 @@ export const ProfileCompletedForm = memo<ProfileCompletedFormProps>(({ className
         name: profile?.name,
       },
       onSubmit: (values, { setErrors }) => {
-        update({ variables: { name: values.name } })
+        update({ variables: { name: values.name?.trim() } })
           .then(() => message.success(t(`screens.ProfileScreen.updateProfile.success`)))
           .catch(catcherValidator({ setErrors, getMessage: (code) => t(`errors.${code}`) }));
       },

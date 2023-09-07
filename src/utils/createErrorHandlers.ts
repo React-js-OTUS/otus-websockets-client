@@ -16,18 +16,18 @@ export const createErrorHandlers = <
   validatorSchema?: ValidatorSchema<Keys>
 ): ErrorHandlers<Err> => ({
   catcher: (error) => {
-    handle((error as unknown as { code: string }).code, error);
+    handle((error as unknown as { data: string }).data, error);
   },
   catcherValidator: ({ setErrors, getMessage }) => {
     const keys = Object.keys(validatorSchema || {}) as Keys[];
     return (error) => {
-      const err = error as Error & { code: string };
-      const index = keys.findIndex((key) => validatorSchema[key].includes(err.code));
+      const err = error as Error & { data: string };
+      const index = keys.findIndex((key) => validatorSchema[key].includes(err.data));
       if (index !== -1) {
         const key = keys[index];
-        setErrors({ [key]: getMessage(err.code as string, err, error) } as Err);
+        setErrors({ [key]: getMessage(err.data as string, err, error) } as Err);
       } else {
-        handle(err.code as string, error);
+        handle(err.data as string, error);
       }
     };
   },
