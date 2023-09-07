@@ -25,7 +25,6 @@ export const Messenger: FC<MessengerProps> = ({ className }) => {
   const profile = useSelector<RootState, RootState['profile']>(profileSelectors.get);
   const messages = useSelector<RootState, RootState['messages']>(messagesSelectors.get);
   const [activeUser, setActiveUser] = useState<User>();
-  console.log({ error });
 
   useEffect(() => {
     if (activeUser) {
