@@ -5,14 +5,15 @@ import s from './UserButton.sass';
 
 export type UserButtonProps = {
   className?: string;
+  active: boolean;
   value: User;
   onClick: (value: User) => void;
 };
 
-export const UserButton: FC<UserButtonProps> = ({ className, value, onClick }) => {
+export const UserButton: FC<UserButtonProps> = ({ className, active, value, onClick }) => {
   if (!value) return null;
   return (
-    <button type="button" className={cn(s.root, className)} onClick={() => onClick(value)}>
+    <button type="button" className={cn(s.root, active && s.active, className)} onClick={() => onClick(value)}>
       {value.name}
     </button>
   );

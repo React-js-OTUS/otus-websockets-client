@@ -5,6 +5,14 @@
   border: 0
   background: none
   cursor: pointer
+  transition: 0.3s
+
+  &:hover,
+  &:focus
+    +theme(color, accent)
 
   & + &
     +theme(border-top, border)
+
+  &.active
+    +theme(background-color, accentLight)

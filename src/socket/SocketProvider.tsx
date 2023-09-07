@@ -1,23 +1,27 @@
-import React, { FC, createContext, useEffect, useState } from 'react';
+import React, { FC, createContext, useEffect, useState, useContext } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { URL } from 'src/client/config';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { tokenSelectors } from 'src/store/token';
 import { usersActions } from 'src/store/users';
+import { messagesActions } from 'src/store/messages';
 
 export type SocketProviderProps = {
   children: React.ReactNode;
 };
 
-export type SocketProviderContextType = {
+export type SocketContextType = {
   socket: Socket;
   error: Error;
 };
-const SocketProviderContext = createContext<SocketProviderContextType>(null);
+
+const SocketContext = createContext<SocketContextType>({} as SocketContextType);
+
+export const useSocketContext = () => useContext(SocketContext);
 
 export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
-  const [data, setData] = useState<SocketProviderContextType>();
+  const [data, setData] = useState<SocketContextType>({ socket: null, error: null });
   const dispatch = useDispatch();
   const token = useSelector<RootState, RootState['token']>(tokenSelectors.get);
 
@@ -40,11 +44,15 @@ export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
       dispatch(usersActions.set(users));
     });
 
+    _socket.on('messages', (messages) => {
+      dispatch(messagesActions.set(messages));
+    });
+
     return () => {
       setData(null);
       _socket.disconnect();
     };
   }, [dispatch, token]);
 
-  return <SocketProviderContext.Provider value={data}>{children}</SocketProviderContext.Provider>;
+  return <SocketContext.Provider value={data}>{children}</SocketContext.Provider>;
 };

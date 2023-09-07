@@ -1,0 +1,31 @@
+@import src/styles/common
+
+.root
+  display: flex
+  padding: 8px
+
+  &.own
+    justify-content: flex-end
+
+.wrapper
+  padding: 16px
+  border-radius: 16px
+  +theme(background-color, mainBg)
+  +theme(box-shadow, boxShadow)
+  width: min-content
+  min-width: 232px
+
+  &.own
+    +theme(background-color, accentLight)
+
+.name
+  font-weight: 600
+
+.content
+  margin: 8px 0
+
+.date
+  text-align: right
+  font-size: 12px
+  +theme(color, lightText)
+

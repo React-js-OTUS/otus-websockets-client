@@ -1,6 +1,8 @@
 // the translations
 // (tip move them in a JSON file and import them,
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
+import { Messenger } from 'src/components/Messenger';
+
 export const resources = {
   en: {
     translation: {
@@ -122,6 +124,9 @@ export const resources = {
         string: 'String value',
       },
       components: {
+        Messenger: {
+          empty: 'There are no users to communicate with',
+        },
         RemoveButton: {
           title: 'Data will be lost, delete?',
           ok: 'Remove',
@@ -296,6 +301,9 @@ export const resources = {
         string: 'Строковое значение',
       },
       components: {
+        Messenger: {
+          empty: 'Нет пользователей для общения',
+        },
         RemoveButton: {
           title: 'Данные будут потеряны, удалить?',
           ok: 'Удалить',
