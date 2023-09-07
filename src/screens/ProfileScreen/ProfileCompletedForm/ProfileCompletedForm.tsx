@@ -26,7 +26,7 @@ export const ProfileCompletedForm = memo<ProfileCompletedFormProps>(({ className
     Pick<FormikConfig<ProfileFormValues>, 'onSubmit' | 'validate' | 'initialValues'>
   >(() => {
     const { catcherValidator } = createErrorHandlers<keyof ProfileFormValues>(
-      (code, _, error) => {
+      (code, error) => {
         if (code === null) {
           message.error(t(`errors.${error.message}`));
         } else {

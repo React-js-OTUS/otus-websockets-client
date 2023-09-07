@@ -1,5 +1,8 @@
-import { Reducer, useCallback, useEffect, useReducer } from 'react';
+import { Reducer, useCallback, useEffect, useReducer, useRef } from 'react';
 import { projectFetch } from 'src/client/projectFetch';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import { tokenSelectors } from 'src/store/token';
 
 export type QueryData<T = unknown> = {
   loading: boolean;
@@ -86,11 +89,15 @@ export type Mutate<TData = unknown, TVars = unknown> = (params?: {
 export const useMutation = <TData = unknown, TVars = unknown>(
   input: string
 ): [Mutate<TData, TVars>, QueryData<TData>] => {
+  const token = useSelector<RootState, RootState['token']>(tokenSelectors.get);
   const [state, dispatch] = useReducer<Reducer<QueryData<TData>, QueryAction<TData>>>(reducer, {
     loading: false,
     error: null,
     data: null,
   });
+
+  const tokenCopy = useRef(token);
+  tokenCopy.current = token;
 
   const query = useCallback<Mutate<TData, TVars>>(
     ({ variables } = {} as { variables: TVars }) => {
@@ -98,7 +105,11 @@ export const useMutation = <TData = unknown, TVars = unknown>(
       return projectFetch<TData>(
         input,
         variables
-          ? { body: JSON.stringify(variables), method: 'post', headers: { 'Content-Type': 'application/json' } }
+          ? {
+              body: JSON.stringify(variables),
+              method: 'post',
+              headers: { 'Content-Type': 'application/json', authorization: tokenCopy.current },
+            }
           : undefined
       )
         .then((res) => {

@@ -27,7 +27,7 @@ export const ChangePasswordCompletedForm = memo<ChangePasswordCompletedFormProps
 
   const { onSubmit, validate } = useMemo<Pick<FormikConfig<ChangePasswordFormValues>, 'onSubmit' | 'validate'>>(() => {
     const { catcherValidator } = createErrorHandlers<keyof ChangePasswordFormValues>(
-      (code, _, error) => {
+      (code, error) => {
         if (code === null) {
           message.error(t(`errors.${error.message}`));
         } else {

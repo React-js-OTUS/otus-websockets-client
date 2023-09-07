@@ -31,7 +31,7 @@ export const SingInBlock = memo<SingInBlockProps>(({ className }) => {
   const location = useLocation();
 
   const { onSubmit, validate } = useMemo<Pick<FormikConfig<AuthFormValues>, 'onSubmit' | 'validate'>>(() => {
-    const { catcher } = createErrorHandlers((code, _, error) => {
+    const { catcher } = createErrorHandlers((code, error) => {
       if (code === null) {
         message.error(t(`errors.${error.message}`));
       } else {
