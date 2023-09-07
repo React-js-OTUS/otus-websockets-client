@@ -1,35 +1,46 @@
 import React, { FC, createContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { URL } from 'src/client/config';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import { tokenSelectors } from 'src/store/token';
 
 export type SocketProviderProps = {
   children: React.ReactNode;
 };
 
-const SocketProviderContext = createContext<Socket>(null);
+export type SocketProviderContextType = {
+  socket: Socket;
+  error: Error;
+};
+const SocketProviderContext = createContext<SocketProviderContextType>(null);
 
 export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
-  const [socket, setSocket] = useState<Socket>();
+  const [data, setData] = useState<SocketProviderContextType>();
+  const token = useSelector<RootState, RootState['token']>(tokenSelectors.get);
+
   useEffect(() => {
-    const _socket = io('http://localhost:4001', {
-      auth: {
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjZkOTIxNDRjNWZlZjdkNzcwMTQ0OSIsImlhdCI6MTY5MzkxMTUyMSwiZXhwIjoxNjk0Nzc1NTIxfQ.OEXcfc2u4tFSjEWm0VG8TUXYfbG-2IZvXTp7vgf8Ato',
-      },
+    const _socket = io(URL, {
+      auth: { token },
     });
 
-    _socket.on('connect', (...a) => {
-      console.log(...a);
+    _socket.on('connect', () => {
+      setData({ socket: _socket, error: null });
     });
 
-    _socket.on('connect_error', console.dir);
+    _socket.on('disconnect', () => {
+      setData({ socket: null, error: null });
+    });
 
-    setSocket(_socket);
+    _socket.on('connect_error', (error) => {
+      setData({ socket: _socket, error });
+    });
 
     return () => {
-      setSocket(null);
+      setData(null);
       _socket.disconnect();
     };
-  }, []);
+  }, [token]);
 
-  return <SocketProviderContext.Provider value={socket}>{children}</SocketProviderContext.Provider>;
+  return <SocketProviderContext.Provider value={data}>{children}</SocketProviderContext.Provider>;
 };
