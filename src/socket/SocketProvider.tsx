@@ -51,10 +51,11 @@ export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
     });
 
     return () => {
-      socket.removeAllListeners('connect');
-      socket.removeAllListeners('disconnect');
-      socket.removeAllListeners('connect_error');
-      socket.disconnect();
+      socket
+        .removeAllListeners('connect')
+        .removeAllListeners('disconnect')
+        .removeAllListeners('connect_error')
+        .disconnect();
       setData({ socket: null, error: null });
     };
   }, [token, dispatch]);
