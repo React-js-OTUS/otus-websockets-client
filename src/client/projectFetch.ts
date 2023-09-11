@@ -1,7 +1,7 @@
 import { URL } from 'src/client/config';
 
 export const projectFetch = <T = Response>(input: string, init?: RequestInit): Promise<T> =>
-  fetch(`${URL}${input}`, init).then(async (res) => {
+  fetch(`${URL}/api${input}`, init).then(async (res) => {
     if (res.status === 200) return res.json();
     return Promise.reject(await res.json());
   });
@@ -32,7 +32,7 @@ export const projectXHR = <T = Response>(
       reject(xhr);
     };
 
-    xhr.open('POST', `${URL}/upload`);
+    xhr.open('POST', `${URL}/api/upload`);
 
     xhr.send(body);
   });

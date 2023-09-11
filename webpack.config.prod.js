@@ -5,8 +5,9 @@ const { ContextReplacementPlugin, DefinePlugin } = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const config = require('./src/config');
 
-const publicPath = 'http://otus.websockets.lesson.ru/';
+const publicPath = config.PUBLIC_PATH + '/';
 
 const dist = path.join(__dirname, 'dist');
 const src = path.join(__dirname, 'src');
@@ -37,7 +38,7 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: ['css-loader', 'postcss-loader', 'less-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'],
       },
       {
         test: /\.svg/,
@@ -46,7 +47,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
