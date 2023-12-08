@@ -2,11 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import cn from 'clsx';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { usersSelectors } from 'src/store/users';
 import { profileSelectors } from 'src/store/profile';
-import { messagesSelectors } from 'src/store/messages';
 import { useSocketContext } from 'src/socket/SocketProvider';
-import { User } from 'src/server.types';
+import { Message, User } from 'src/server.types';
 import { MessageData } from 'src/components/Messenger/types';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'antd';
@@ -21,9 +19,9 @@ export type MessengerProps = {
 export const Messenger: FC<MessengerProps> = ({ className }) => {
   const { t } = useTranslation();
   const { socket, error } = useSocketContext();
-  const users = useSelector<RootState, RootState['users']>(usersSelectors.get);
+  const users: User[] = [];
   const profile = useSelector<RootState, RootState['profile']>(profileSelectors.get);
-  const messages = useSelector<RootState, RootState['messages']>(messagesSelectors.get);
+  const messages: Message[] = [];
   const [activeUser, setActiveUser] = useState<User>();
 
   useEffect(() => {
