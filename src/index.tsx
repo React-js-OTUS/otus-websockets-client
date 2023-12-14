@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import 'symbol-observable';
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';

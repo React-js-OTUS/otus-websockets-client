@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
+import { users } from 'src/store/users';
+import { messages } from 'src/store/messages';
 import { token } from './token';
 import { initialized } from './initialized';
 import { profile } from './profile';
@@ -9,6 +11,8 @@ const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
+    users,
+    messages,
     initialized,
     token,
     profile,

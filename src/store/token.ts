@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CaseReducer } from '@reduxjs/toolkit/src/createReducer';
 import { PayloadAction } from '@reduxjs/toolkit/src/createAction';
+import { storage } from 'src/utils/storage';
 import { RootState } from './index';
 
 export const TOKEN_KEY = 'token';
@@ -11,7 +12,7 @@ export const tokenSlice = createSlice<
   'token'
 >({
   name: 'token',
-  initialState: null,
+  initialState: storage.get(TOKEN_KEY),
   reducers: {
     set: (_, action) => action.payload,
     logout: () => null,
